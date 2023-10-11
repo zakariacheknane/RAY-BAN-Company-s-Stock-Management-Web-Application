@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:p="http://primefaces.org/ui">
+<head>
+  <meta charset="utf-8"/>
+  <title>Order's invoice</title>
+	<link href="resources/assets/img/logo.png" rel="icon"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <f:metadata>
+    <f:event type="preRenderView" listener="#{loginManagedBean.checkLoggedIn}" />
+  </f:metadata>
+
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet"/>
+
+  <!-- Vendor CSS Files -->
+  <link href="resources/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="resources/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="resources/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet"/>
+  <link href="resources/assets/vendor/quill/quill.snow.css" rel="stylesheet"/>
+  <link href="resources/assets/vendor/quill/quill.bubble.css" rel="stylesheet"/>
+  <link href="resources/assets/vendor/remixicon/remixicon.css" rel="stylesheet"/>
+  <link href="resources/assets/vendor/simple-datatables/style.css" rel="stylesheet"/>
+
+  <!-- Template Main CSS File -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding-top: 10px;
+    }
+
+
+    .invoice {
+      width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      margin-top: 100px;
+    }
+
+    .invoice-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .invoice-header h1 {
+      font-size: 28px;
+      margin: 0;
+    }
+
+    .invoice-items {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    .invoice-items th,
+    .invoice-items td {
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .invoice-items th {
+      text-align: left;
+      background-color: #f0f0f0;
+    }
+
+label{
+      font-family: "Open Sans", sans-serif;
+      font-size:10pt;
+      color: #444444;
+      padding:10px;
+    }
+    .btn {
+    width:150px;
+    height:40px;
+    margin-top:30px;
+
+
+    }
+    .footer {
+  padding: 20px 0;
+  font-size: 14px;
+  transition: all 0.3s;
+  border-top: 1px solid #cddfff;
+}
+
+.footer .copyright {
+  text-align: center;
+  color: #012970;
+}
+
+}
+
+  </style>
+</head>
+<body>
+  <script>
+    function saveAsPDF() {
+      const filename = 'commande.pdf';
+      const pdfOptions = {
+        filename: filename,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+      };
+
+      // Masquer le bouton avant la conversion en PDF
+      document.querySelector('.button').style.display = 'none';
+
+      html2pdf().from(document.getElementById('invoice')).set(pdfOptions).save();
+
+      // Réafficher le bouton après la conversion en PDF (facultatif)
+      document.querySelector('.button').style.display = 'block';
+    }
+  </script>
+
+  <div class="invoice" id="invoice">
+  
+    <div class="invoice-header">  <img src="resources/assets/img/logo.png" style="width:100px;float:left;margin-bottom:20px;"></img>
+
+    <div class="pagetitle" style="margin-right:200px;">
+      <h1>Order's invoice</h1></div>
+    </div>
+    
+    <table class="invoice-items">
+      <thead>
+        <tr>
+          <th>Article's Code</th>
+          <th>Quantity</th>
+          <th>Delivery due date </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#{commandeManagedBean.commande.codeArt}</td>
+          <td>#{commandeManagedBean.commande.qteCommande}</td>
+          <td>
+            #{fn:substring(commandeManagedBean.getCommande().getDatePrevueLivraison(),8, 10)}/
+            #{fn:substring(commandeManagedBean.getCommande().getDatePrevueLivraison(),3, 7)} /
+            #{fn:substring(commandeManagedBean.getCommande().getDatePrevueLivraison(),25, 30)}
+          </td>
+        </tr>
+      
+      </tbody>
+    </table> 
+  </div>
+  <div style="margin-left:1000px; margin-bottom:100px;">
+  <h:form>
+    <h:commandButton type="button" class="btn btn-warning button " onclick="saveAsPDF()" value="Save as PDF"></h:commandButton><br/>
+    <h:commandButton class="btn btn-danger button" action="#{commandeManagedBean.commande}" value="Back to orders"></h:commandButton><br/>
+  </h:form></div><br/>
+ 
+ <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+       Copyright <strong><span>Ray Ban</span></strong>. All Rights Reserved
+    </div></footer>
+ 
+</body>
+</html>

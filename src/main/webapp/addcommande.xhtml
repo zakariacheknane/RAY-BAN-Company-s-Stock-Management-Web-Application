@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+ 
+
+<h:head>
+<title>Add Orders</title>
+	<link href="resources/assets/img/logo.png" rel="icon"/><link rel="stylesheet" type="text/css"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+  <link href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet"/>
+
+  <!-- Vendor CSS Files -->
+<link href="resources/assets/css/style.css" rel="stylesheet"/>
+  <link href="resources/assets/vendor/simple-datatables/style.css" rel="stylesheet"/>
+
+  <!-- Template Main CSS File -->
+<link rel="stylesheet" type="text/css"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="resources/Style.css"/>
+ <f:metadata>
+ 
+  
+    <f:event type="preRenderView" listener="#{loginManagedBean.checkLoggedIn}" />
+	
+</f:metadata>
+<style>
+    label{
+      font-family: "Open Sans", sans-serif;
+      font-size:10pt;
+      color: #444444;
+      padding:10px;
+    }
+    .btn {
+    width:80px;
+    height:30px;
+    margin-top:20px;
+
+ 
+    }
+  </style>
+
+
+	
+</h:head>
+<body>
+<ui:include src="templet.jsp" />
+<main id="main" class="main">
+<section class="section dashboard">
+  <div class="row">
+   <div class="col-lg-8">
+<div class="pagetitle">
+      <h1>Add orders</h1>
+
+      
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.xhtml">Home</a></li>
+          <li class="breadcrumb-item active">Add orders</li>
+        </ol>
+      </nav></div> <br/>
+      
+
+<div class="card" style="">
+            <div class="card-body">
+            
+              <h5 class="card-title">Add an order</h5>
+         
+<h:form id="form">
+  <h:panelGroup rendered="#{not empty facesContext.messageList and facesContext.messageList[0].detail ne 'One or more resources have the target of \'head\', but no \'head\' component has been defined within the view.'}">
+    <div  class="warning alert alert-danger alert-dismissible">
+        #{facesContext.messageList[0].detail}
+    </div>
+</h:panelGroup>
+    	<div class="form-group">
+    	<div class="col-12">						
+							<label class="control-label">Code <span style="color:red;">*</span></label>
+						<h:inputText  id="codeArt"  class="form-control" value="#{commandeManagedBean.commande.codeArt}" ></h:inputText>
+						
+						</div></div>
+		<div class="form-group">
+		<div class="col-12">
+						<label class="control-label">Quantity  <span style="color:red;">*</span></label>
+<h:inputText class="form-control" value="#{commandeManagedBean.commande.qteCommande}" validatorMessage="Quantity must be a positive number" id="quantity">
+<f:validateDoubleRange minimum="0" />
+<h:message for="quantity" styleClass="error-message" />
+</h:inputText>
+					</div></div>
+            
+							
+						
+	<div class="form-group">
+	<div class="col-12">
+							<label class="control-label">Date  <span style="color:red;">*</span></label><br/>
+							<p:calendar  value="#{commandeManagedBean.commande.datePrevueLivraison}" pattern="yyyy/MM/dd"  />
+					</div></div>
+					<div class="text-center" >
+        <h:commandButton class="btn bg-danger-light" action="#{commandeManagedBean.saveCommande()}" value="Save"></h:commandButton><a>      </a>
+                    </div>
+</h:form>
+					</div></div></div></div></section></main>
+					
+					
+
+					
+ <ui:include src="footer.jsp" />
+   <script src="resources/assets/js/main.js"></script>
+  <script src="resources/style.js"></script>
+</body>
+</html>
